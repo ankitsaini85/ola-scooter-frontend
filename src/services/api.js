@@ -1,0 +1,21 @@
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+});
+
+export const setAuthToken = (token) => {
+  if (token) {
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+    return;
+  }
+
+  delete api.defaults.headers.common.Authorization;
+};
+
+const savedToken = window.localStorage.getItem('corona_token');
+if (savedToken) {
+  setAuthToken(savedToken);
+}
+
+export default api;
